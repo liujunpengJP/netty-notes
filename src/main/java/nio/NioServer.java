@@ -45,6 +45,7 @@ public class NioServer {
      * 轮训方式，监听selector上是否有时间发生
      */
     public void listen() throws IOException {
+
         while (true) {
             //未发生事件时为阻塞状态
             selector.select(1000);
