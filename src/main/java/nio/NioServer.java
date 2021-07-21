@@ -48,7 +48,7 @@ public class NioServer {
 
         while (true) {
             //未发生事件时为阻塞状态
-            selector.select(1000);
+            selector.select();
             //获取发生事件的SelectionKey
             Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
             while (iterator.hasNext()) {
@@ -62,7 +62,7 @@ public class NioServer {
                     socketChannel.configureBlocking(false);
                     //向客户端发送消息
                     socketChannel.write(ByteBuffer.wrap(("已经接收到：" + socketChannel.getRemoteAddress() + " 的连接！").getBytes(StandardCharsets.UTF_8)));
-                    System.out.println("已经接收到：" + socketChannel.getRemoteAddress() + " 的连接！");
+                    System.out.println("已经接收到：" + socketChannel.getRemoteAddress() + " 的连接！当前selector连接数：" + selector.keys().size());
                     //并且监听客户端发送消息
                     socketChannel.register(selector, SelectionKey.OP_READ);
                 } else if (selectionKey.isReadable()) {
@@ -89,7 +89,7 @@ public class NioServer {
         //读取数据
         socketChannel.read(byteBuffer);
         //接收到客户端发送数据
-        System.out.println(new String(byteBuffer.array()));
+        System.out.println(new String(byteBuffer.array()).trim());
         //回复客户端
         socketChannel.write(ByteBuffer.wrap("已经成功收到消息".getBytes(StandardCharsets.UTF_8)));
     }

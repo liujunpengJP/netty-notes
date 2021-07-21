@@ -47,7 +47,7 @@ public class NioClient {
     public void listen() throws IOException {
         while (true) {
             //没有事件发送就会阻塞在当前位置
-            selector.select(1000);
+            selector.select();
             //获取发生的事件
             Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
             //遍历
@@ -64,17 +64,13 @@ public class NioClient {
                     socketChannel.configureBlocking(false);
                     System.out.println("已成功连接服务端！！");
                     //发送消息过去
-                    Scanner scanner = new Scanner(System.in);
-                    while (scanner.hasNextLine()) {
-                        String msg = scanner.nextLine().trim();
-                        socketChannel.write(ByteBuffer.wrap(msg.getBytes(StandardCharsets.UTF_8)));
-                    }
+                    socketChannel.write(ByteBuffer.wrap("hello".getBytes(StandardCharsets.UTF_8)));
                     //并且监听读取事件
                     socketChannel.register(selector, SelectionKey.OP_READ);
-                } else if (selectionKey.isReadable()) {
+                }
+                if (selectionKey.isReadable()) {
                     //接受读取事件
                     read(selectionKey);
-                    System.out.println("clinet发生read事件");
                 }
                 iterator.remove();
             }
@@ -93,7 +89,7 @@ public class NioClient {
         ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
         //读取数据
         socketChannel.read(byteBuffer);
-        System.out.println(new String(byteBuffer.array()));
+        System.out.println(new String(byteBuffer.array()).trim());
     }
 
     public static void main(String[] args) throws IOException {
