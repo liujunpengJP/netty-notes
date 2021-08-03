@@ -1,15 +1,13 @@
-package nio;
+package com.liujunpeng.nettynotes.nio;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
-import java.util.Scanner;
 
 /**
  * @Description: nio实现客户端连接
@@ -18,6 +16,7 @@ import java.util.Scanner;
  * @Version: 1.0
  */
 public class NioClient {
+
 
     private Selector selector;
 
@@ -94,7 +93,7 @@ public class NioClient {
 
     public static void main(String[] args) throws IOException {
         NioClient nioClient = new NioClient();
-        nioClient.initClinet("127.0.0.1", 6666);
+        nioClient.initClinet("127.0.0.1", 8888);
         nioClient.listen();
     }
 }

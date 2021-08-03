@@ -1,4 +1,4 @@
-package nio;
+package com.liujunpeng.nettynotes.fileChannel;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
