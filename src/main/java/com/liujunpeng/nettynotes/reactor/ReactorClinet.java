@@ -35,7 +35,6 @@ public class ReactorClinet {
                     });
 
             System.out.println("客户端已准备就绪");
-
             ChannelFuture channelFuture = bootstrap.connect("127.0.0.1", 6666).sync();
 
             channelFuture.channel().closeFuture().sync();

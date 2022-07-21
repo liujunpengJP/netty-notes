@@ -21,7 +21,7 @@ import java.net.URI;
 public class NettyHttpServer {
     public static void main(String[] args) throws Exception {
         NioEventLoopGroup master = new NioEventLoopGroup(4);
-        NioEventLoopGroup slave = new NioEventLoopGroup(4);
+        NioEventLoopGroup slave = new NioEventLoopGroup(10);
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.group(master, slave)
@@ -77,7 +77,7 @@ public class NettyHttpServer {
                 URI uri = new URI(httpRequest.uri());
                 System.out.println("访问的地址：" + uri.getPath());
                 //回复消息给客户端
-                ByteBuf byteBuf = Unpooled.copiedBuffer("Hello 这是服务端！！", CharsetUtil.UTF_8);
+                ByteBuf byteBuf = Unpooled.copiedBuffer("Hello 这是服务端！！" + Thread.currentThread().getName(), CharsetUtil.UTF_8);
                 //构造一个httpResponse
                 DefaultFullHttpResponse defaultFullHttpResponse = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, byteBuf);
                 //设置请求头
